@@ -10,9 +10,15 @@ interface APODData {
 
 const APODViewer = () => {
   const [apodData, setApodData] = useState<APODData | null>(null);
-  const [date, setDate] = useState<string>(
-    new Date().toISOString().slice(0, 10)
-  );
+  const [date, setDate] = useState<string>(() => {
+    const today = new Date();
+    const yesterday = new Date(today.getTime());
+
+    yesterday.setTime(today.getTime() - 24 * 60 * 60 * 1000);
+
+    return yesterday.toISOString().slice(0, 10);
+  });
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
   const API_KEY = "LNFCt0b3t2h2CxPZW5jAdYP4xUTZ82or2P6dczRD";
